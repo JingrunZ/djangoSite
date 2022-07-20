@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <script src="https://cdn.jsdelivr.net/npm/echarts@5.3.3/dist/echarts.min.js"></script>
+    <title>MyBlog</title>
+</head>
+<body>
+
+<div>
+
+    {% for i in com %}
+    <p>{{i.name}}</p>
+    <p>{{i.address}}</p>
+    <p>{{i.openingPrice}}</p>
+    <p>{{i.closingPrice}}</p>
+    {% endfor %}
+    
+    
+    
+        
+</div>
+
+
+</body>
+</html>
