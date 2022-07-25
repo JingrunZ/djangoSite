@@ -3,23 +3,61 @@
 <head>
     <meta charset="UTF-8">
     <script src="https://cdn.jsdelivr.net/npm/echarts@5.3.3/dist/echarts.min.js"></script>
+    <script src="https://cdn.bootcss.com/jquery/3.0.0/jquery.min.js"></script>
     <title>MyBlog</title>
+    <script src="echarts.js"></script>
 </head>
 <body>
+    <div id="main" style="width: 1000px;height:1000px;"></div>
 
-<div>
+    <script type="text/javascript">
+      // 基于准备好的dom，初始化echarts实例
+      var myChart = echarts.init(document.getElementById('main'));
+      
+      // 指定图表的配置项和数据
+      var option = {
+        title: {
+          text: '第三季度各行业市值分布(Market Value distribution by industry in season 3 in 2022)'
+        },
+        tooltip: {},
+        legend: {
+          data: ['市值(Market Value)']
+        },
+        xAxis: {
+          data: [{% for i in x_data %}'{{i}}',{% endfor %}],
+        },
+        yAxis: {},
+        series: [
+          {
+            name: 'Market Value',
+            type: 'bar',
+            data: [{% for i in y_data %}{{i}},{% endfor %}],
+          }
+        ]
+      };
 
-    {% for i in com %}
-    <p>{{i.name}}</p>
-    <p>{{i.address}}</p>
-    <p>{{i.openingPrice}}</p>
-    <p>{{i.closingPrice}}</p>
-    {% endfor %}
-    
-    
-    
-        
-</div>
+      window.onload = function () {
+        //Send a post request with the address index (Jquery)
+        $.ajax({
+            url: "/",
+            type: "POST",
+            data: {},
+            success: function (data) {
+                //Histogram
+                show_bar(data['x_data']);
+
+                //Results returned by the backend
+                console.log(data)
+            }
+        })
+    }
+
+      // 使用刚指定的配置项和数据显示图表。
+      myChart.setOption(option);
+    </script>
+
+
+
 
 
 </body>

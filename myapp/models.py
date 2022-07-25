@@ -36,78 +36,107 @@ class wealth(models.Model):
 
     def __str__(self):
         return self.name
+
+class sector(models.Model):
+    name = models.CharField('中文简称', max_length=100)
+    industry = models.CharField('行业', max_length=100)
+    geo = models.CharField('省份', max_length=100)
+    class Meta:
+        constraints = [
+            models.UniqueConstraint(fields=['name', 'industry'],name='unique_ind')
+        ]
+
+    def __str__(self):
+        return self.name
+
+
 #----------------------------------------------------------------------------
-url1 = 'http://quotes.money.163.com/f10/gszl_000001.html#01f01'
-posts = []
-for i in info.objects.all():
-    posts.append(i.name)
+# url1 = 'http://quotes.money.163.com/f10/gszl_000001.html#01f01'
+# posts = []
+# for i in info.objects.all():
+#     posts.append(i.name)
 
 
+# df = pd.read_csv(r'C:\Users\stanf\OneDrive\Desktop\project\mysite\myapp\tushare.csv')
+# for i in range(2643,len(df)):
+#     url1 = re.sub("[0-9][0-9][0-9][0-9][0-9][0-9]", df.loc[i][0][0:6] , url1)
+#     text=requests.get(url1)
+#     print(url1)
+#     text.encoding=text.apparent_encoding
+#     text=text.text
+#     bs4 = BeautifulSoup(text,'html.parser')
 
-df = pd.read_csv(r'C:\Users\stanf\OneDrive\Desktop\project\mysite\myapp\tushare.csv')
-for i in range(2643,len(df)):
-    url1 = re.sub("[0-9][0-9][0-9][0-9][0-9][0-9]", df.loc[i][0][0:6] , url1)
-    text=requests.get(url1)
-    print(url1)
-    text.encoding=text.apparent_encoding
-    text=text.text
-    bs4 = BeautifulSoup(text,'html.parser')
+#     x = re.findall(".\d{7}[.]html", str(bs4))
+#     CompanyName = bs4.find('a',href=x[0]).text
 
-    x = re.findall(".\d{7}[.]html", str(bs4))
-    CompanyName = bs4.find('a',href=x[0]).text
+#     rows = bs4.find_all('tr')
 
-    rows = bs4.find_all('tr')
-
-    companyAddress=rows[5].find_all('td')[3].text
-    openPrice=rows[28].find_all('td')[1].text
-    closePrice=rows[29].find_all('td')[1].text
-    marketDate=rows[17].find_all('td')[1].text
-    estdate=rows[16].find_all('td')[1].text
+#     companyAddress=rows[5].find_all('td')[3].text
+#     openPrice=rows[28].find_all('td')[1].text
+#     closePrice=rows[29].find_all('td')[1].text
+#     marketDate=rows[17].find_all('td')[1].text
+#     estdate=rows[16].find_all('td')[1].text
     
     
 
-    if CompanyName not in posts:
-        b = info(name=CompanyName, openingPrice=openPrice, closingPrice=closePrice, address=companyAddress,establishment=estdate,marketTime=marketDate)
-        b.save()
-        posts.append(CompanyName)
+#     if CompanyName not in posts:
+#         b = info(name=CompanyName, openingPrice=openPrice, closingPrice=closePrice, address=companyAddress,establishment=estdate,marketTime=marketDate)
+#         b.save()
+#         posts.append(CompanyName)
 
 
 # #------------------------------------------------------------------
-# 
-df = pd.read_csv(r'C:\Users\stanf\OneDrive\Desktop\project\mysite\myapp\tushare.csv')
-for i in range(4684,4735):
-    wealth_list= "http://quotes.money.163.com/trade/lsjysj_000001.html?year=2022&season=2"
-    will_replace = df.loc[i][0][0:6]
+ 
+# df = pd.read_csv(r'C:\Users\stanf\OneDrive\Desktop\project\mysite\myapp\tushare.csv')
+# for i in range(0,2635):
+#     wealth_list= "http://quotes.money.163.com/trade/lsjysj_000001.html?year=2022&season=3"
+#     will_replace = df.loc[i][0][0:6]
     
 
-    wealth_list = re.sub("[0-9][0-9][0-9][0-9][0-9][0-9]", will_replace , wealth_list)
-    temp=requests.get(wealth_list)
-    print(wealth_list)
-    temp.encoding=temp.apparent_encoding
-    new=temp.text
-    res = BeautifulSoup(new,'html.parser')
+#     wealth_list = re.sub("[0-9][0-9][0-9][0-9][0-9][0-9]", will_replace , wealth_list)
+#     temp=requests.get(wealth_list)
+#     print(wealth_list)
+#     temp.encoding=temp.apparent_encoding
+#     new=temp.text
+#     res = BeautifulSoup(new,'html.parser')
 
-    result = res.find_all('tr')
-    
-    x = re.findall(".\d{7}[.]html", str(res))
-    tempName = res.find('a',href=x[0]).text
+#     result = res.find_all('tr')
+       
+#     x = re.findall(".\d{7}[.]html", str(res))
+#     tempName = res.find('a',href=x[0]).text
 
-    for row in res.find_all('table',{"class":'table_bg001 border_box limit_sale'})[0].find_all('tr')[1:]:
-        tempDate = row.find_all('td')[0].text
-        tempOpen =  row.find_all('td')[1].text
-        tempMax = row.find_all('td')[2].text
-        tempMin = row.find_all('td')[3].text
-        tempClose = row.find_all('td')[4].text
-        tempUpDown = row.find_all('td')[5].text
-        tempQuote = row.find_all('td')[6].text
-        tempVol = row.find_all('td')[7].text
-        tempTurnover = row.find_all('td')[8].text
-        tempAmplitude = row.find_all('td')[9].text
-        tempTurnoverRate = row.find_all('td')[10].text
+#     for row in res.find_all('table',{"class":'table_bg001 border_box limit_sale'})[0].find_all('tr')[1:]:
+#         tempDate = row.find_all('td')[0].text
+#         tempOpen =  row.find_all('td')[1].text
+#         tempMax = row.find_all('td')[2].text
+#         tempMin = row.find_all('td')[3].text
+#         tempClose = row.find_all('td')[4].text
+#         tempUpDown = row.find_all('td')[5].text
+#         tempQuote = row.find_all('td')[6].text
+#         tempVol = row.find_all('td')[7].text
+#         tempTurnover = row.find_all('td')[8].text
+#         tempAmplitude = row.find_all('td')[9].text
+#         tempTurnoverRate = row.find_all('td')[10].text
         
-        if not wealth.objects.filter(name=tempName,date=tempDate).exists():
-            b = wealth(name=tempName,date=tempDate,open=tempOpen,max=tempMax,min=tempMin,upDown=tempUpDown,Quote=tempQuote,volume=tempVol,Turnover=tempTurnover,amplitude=tempAmplitude,TurnoverRate=tempTurnoverRate)  
-            b.save()
+#         if not wealth.objects.filter(name=tempName,date=tempDate).exists():
+#             b = wealth(name=tempName,date=tempDate,open=tempOpen,max=tempMax,min=tempMin,upDown=tempUpDown,Quote=tempQuote,volume=tempVol,Turnover=tempTurnover,amplitude=tempAmplitude,TurnoverRate=tempTurnoverRate)  
+#             b.save()
+
+#-------------------------------------------------------------------------------
+
+# 
+# df = pd.read_csv(r'C:\Users\stanf\OneDrive\Desktop\project\mysite\myapp\tushare.csv')
+# for i in range(0,4770):
+#     if(df.loc[i][5]!="北交所"):
+#         CompanyName = df.loc[i][2]
+#         location = df.loc[i][3]
+#         tempInd = df.loc[i][4]
+
+#     if not sector.objects.filter(name=CompanyName,industry=tempInd).exists():
+#         b = sector(name=CompanyName,industry=tempInd,geo=location)
+#         print(b)  
+#         b.save()
+
 
 
             
