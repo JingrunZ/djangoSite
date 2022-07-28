@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <script src="https://cdn.jsdelivr.net/npm/echarts@5.3.3/dist/echarts.min.js"></script>
     <script src="https://cdn.bootcss.com/jquery/3.0.0/jquery.min.js"></script>
+    
     <title>MySite</title>
     <script src="echarts.js"></script>
 </head>
@@ -22,7 +23,7 @@
     height: 300px; 
   }
   #Requirement3{
-    margin-left: 33.33%;
+    margin-left: 23.33%;
     width: 33.33%;
     padding: 10px;
     height: 300px; 
@@ -50,15 +51,15 @@
     </div>
 
     <div class="search-container">
-      <form action="">
-        <input type="text" placeholder="Search.." name="search">
-        <button type="submit">basic info</button>
+      <form action="{% url 'detail' %}">
+        <input type="search" placeholder="Search.." name="searched">
+        <button type="submit">K-Map</button>
 
       </form>
     </div>
 
     <div class="row2">
-      <div id="Requirement3" style="width: 600px;height:600px;"></div>
+      <div id="Requirement3" style="width: 1000px;height:1000px;"></div>
     </div>
     <script type="text/javascript">
 

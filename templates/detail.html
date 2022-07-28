@@ -8,6 +8,50 @@
     <script src="echarts.js"></script>
 </head>
 <body>
-    <h1>TEST</h1>
+    {% if searched in company_names %}
+        <h1>{{searched}}的K线图和基础信息 (K-map of {{searched}} and basic information)</h1>
+    {% endif %}
+    <div id="Requirement5" style="width: 1000px;height:1000px;"></div>
+
+    <div class="title">
+        <h2>公司基础信息(Basic Information about Company)</h2>
+    </div>
+
+    <div class="info_container">
+        {% if searched in company_names %}
+            <h3>公司名(Company Name):{{searched}}</h3>
+            <h3>行业板块(Industry):{{myInd}}</h3>
+            <h3>公司地址(Company Address):{{myaddress}}</h3>
+            <h3>首日开盘价(First Day Opening Price):{{myopeningPrice}}</h3>
+            <h3>首日收盘价(First Day Closing Price):{{myclosingPrice}}</h3>
+            <h3>上市日期(Listing Date):{{mymarketTime}}</h3>
+            <h3>成立日期(Company Establishment Date ):{{myestablishment}}</h3>
+        {% endif %}
+    </div>
+
+    <form action="http://quotes.money.163.com/f10/gszl_{{regex}}.html#01f01">    
+        <button type="submit">Show More Info</button>
+    </form>
+
+    <script>
+        var bar = echarts.init(document.getElementById('Requirement5'));
+        var option = {
+            xAxis: {
+            data: [{% for i in dates %}'{{i}}',{% endfor %}],
+            },
+            yAxis: {},
+            series: [
+                {
+                    type: 'candlestick',
+                    data: [{% for i in kmapwealth %}{{i}},{% endfor %}]
+                }
+            ]
+        };
+        
+
+        bar.setOption(option);
+
+
+    </script>
 </body>
 </html>

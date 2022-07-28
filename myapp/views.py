@@ -1,9 +1,8 @@
 from django.shortcuts import render
-from .models import info
-from .models import sector
-from .models import wealth
+
 from collections import defaultdict
 import pymysql.cursors
+import pandas as pd
 
 connection = pymysql.connect(host='localhost',
                              user='root',
@@ -15,6 +14,8 @@ with connection:
         companyInd = "SELECT name,industry FROM `myapp_sector`"
         companyNewestPrice = "SELECT name,max FROM `myapp_wealth` WHERE date='2022-06-30'"
         companyGeo = "SELECT name,geo FROM `myapp_sector`"
+        basicInfo = "SELECT * FROM `myapp_wealth`"
+        companyInfo = "SELECT * FROM `myapp_info`"
 
         cursor.execute(companyInd)
         industry_company = cursor.fetchall()
@@ -24,6 +25,13 @@ with connection:
 
         cursor.execute(companyGeo)
         company_Geo = cursor.fetchall()
+
+        cursor.execute(basicInfo)
+        Basic_Info = cursor.fetchall()
+
+        cursor.execute(companyInfo)
+        company_Info = cursor.fetchall()
+
 
 
 # Create your views here.
@@ -71,8 +79,75 @@ def charts(request):
 
 
 
+def search(request):
+    if request.method == "GET":
+        company_names=[]
+        searched = request.GET["searched"]
 
+        kmapwealth=[]
+        dates=[]
 
+        for i in company_Geo:
+            company_names.append(i['name'])
+
+        if searched in company_names:
+            for i in Basic_Info:
+                if i['name'] == searched:
+                    temp=[]
+                    dates.append(i['date'])
+                    
+                    temp.append(float(i['close']))
+                    temp.append(float(i['open']))
+                    temp.append(float(i['min']))
+                    temp.append(float(i['max']))
+
+                    kmapwealth.append(temp)
+        else:
+            searched='error'
+
+        if searched in company_names:
+            for i in company_Info:
+                if i['name'] == searched:
+                    myname = i['name']
+                    myaddress =i['address']
+                    myestablishment=i['establishment']
+                    mymarketTime=i['marketTime']
+                    myopeningPrice=i['openingPrice']
+                    myclosingPrice=i['closingPrice']
+            for i in industry_company:
+                if i['name'] == searched:
+                    myInd = i['industry']
+
+        df = pd.read_csv(r'C:\Users\stanf\OneDrive\Desktop\project\mysite\myapp\tushare.csv')
+        for i in range(0,4735):
+            temp = df.loc[i][2]
+            if temp == searched:
+                regex=df.loc[i][0][0:6]
+
+        #encapsulation 
+        data = {
+            'searched':searched,
+            'kmapwealth':kmapwealth,
+            'dates':dates,
+            'company_names':company_names,
+            'myname':myname,
+            'myaddress':myaddress,
+            'myestablishment':myestablishment,
+            'mymarketTime':mymarketTime,
+            'myopeningPrice':myopeningPrice,
+            'myclosingPrice':myclosingPrice,
+            'myInd':myInd,
+            'regex':regex
+        }
+
+        print(regex)
+        
+
+        
+        
+        return render(request,'./detail.html',data)
+    else:
+        return render(request,'./detail.html',{})
 
 
 

@@ -22,7 +22,8 @@ class wealth(models.Model):
     date = models.CharField('日期', max_length=100)
     open = models.CharField('开盘价', max_length=100)
     min = models.CharField('最低价', max_length=100)
-    max = models.CharField('收盘价', max_length=100)
+    max = models.CharField('最高价', max_length=100)
+    close = models.CharField('收盘价', max_length=100)
     upDown = models.CharField('涨跌额', max_length=100)
     Quote = models.CharField('涨跌幅', max_length=100)
     volume = models.CharField('成交量', max_length=100)
@@ -88,14 +89,14 @@ class sector(models.Model):
 # #------------------------------------------------------------------
  
 # df = pd.read_csv(r'C:\Users\stanf\OneDrive\Desktop\project\mysite\myapp\tushare.csv')
-# for i in range(0,2635):
-#     wealth_list= "http://quotes.money.163.com/trade/lsjysj_000001.html?year=2022&season=3"
+# for i in range(4734,4735):
+#     wealth_list= "http://quotes.money.163.com/trade/lsjysj_000001.html?year=2022&season=2"
 #     will_replace = df.loc[i][0][0:6]
     
 
 #     wealth_list = re.sub("[0-9][0-9][0-9][0-9][0-9][0-9]", will_replace , wealth_list)
 #     temp=requests.get(wealth_list)
-#     print(wealth_list)
+    
 #     temp.encoding=temp.apparent_encoding
 #     new=temp.text
 #     res = BeautifulSoup(new,'html.parser')
@@ -104,6 +105,7 @@ class sector(models.Model):
        
 #     x = re.findall(".\d{7}[.]html", str(res))
 #     tempName = res.find('a',href=x[0]).text
+#     print(tempName)
 
 #     for row in res.find_all('table',{"class":'table_bg001 border_box limit_sale'})[0].find_all('tr')[1:]:
 #         tempDate = row.find_all('td')[0].text
@@ -119,7 +121,7 @@ class sector(models.Model):
 #         tempTurnoverRate = row.find_all('td')[10].text
         
 #         if not wealth.objects.filter(name=tempName,date=tempDate).exists():
-#             b = wealth(name=tempName,date=tempDate,open=tempOpen,max=tempMax,min=tempMin,upDown=tempUpDown,Quote=tempQuote,volume=tempVol,Turnover=tempTurnover,amplitude=tempAmplitude,TurnoverRate=tempTurnoverRate)  
+#             b = wealth(name=tempName,date=tempDate,open=tempOpen,max=tempMax,min=tempMin,close=tempClose,upDown=tempUpDown,Quote=tempQuote,volume=tempVol,Turnover=tempTurnover,amplitude=tempAmplitude,TurnoverRate=tempTurnoverRate)  
 #             b.save()
 
 #-------------------------------------------------------------------------------
