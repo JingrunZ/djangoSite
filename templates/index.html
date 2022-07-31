@@ -1,148 +1,169 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
-    <meta charset="UTF-8">
-    <script src="https://cdn.jsdelivr.net/npm/echarts@5.3.3/dist/echarts.min.js"></script>
-    <script src="https://cdn.bootcss.com/jquery/3.0.0/jquery.min.js"></script>
-    
-    <title>MySite</title>
-    <script src="echarts.js"></script>
+  <meta charset="UTF-8">
+  <script src="https://cdn.jsdelivr.net/npm/echarts@5.3.3/dist/echarts.min.js"></script>
+  <script src="https://cdn.bootcss.com/jquery/3.0.0/jquery.min.js"></script>
+
+  <title>MySite</title>
+  <script src="echarts.js"></script>
 </head>
+
 <body>
   <style>
     * {
-    box-sizing: border-box;
-  }
-  h1{
-    text-align: center;
-  }
-  #Requirement1,#Requirement2{
-    float: left;
-    width: 33.33%;
-    padding: 10px;
-    height: 300px; 
-  }
-  #Requirement3{
-    margin-left: 23.33%;
-    width: 33.33%;
-    padding: 10px;
-    height: 300px; 
-  }
-
-  .row:after {
-    content: "";
-    display: table;
-    clear: both;
-  }
-  .row2:after {
-    content: "";
-    display: table;
-    clear: both;
-  }
-
-    
-  </style>
-    <div>
-      <h1>上市公司可视化数据分析系统(Listed company visual data analysis system)</h1>
-    </div>
-    <div class="row">
-      <div id="Requirement1" style="width: 720px;height:720px;"></div>
-      <div id="Requirement2" style="width: 720px;height:720px;"></div>
-    </div>
-
-    <div class="search-container">
-      <form action="{% url 'detail' %}">
-        <input type="search" placeholder="Search.." name="searched">
-        <button type="submit">K-Map</button>
-
-      </form>
-    </div>
-
-    <div class="row2">
-      <div id="Requirement3" style="width: 1000px;height:1000px;"></div>
-    </div>
-    <script type="text/javascript">
-
-      var bar = echarts.init(document.getElementById('Requirement1'));
-      var pie = echarts.init(document.getElementById('Requirement2'));
-      var mychart = echarts.init(document.getElementById('Requirement3'));
-
-      const company_and_geo = {{mylist|safe}};
-
-      var option = {
-        title: {
-          text: '第三季度行业市值分布(Market Value distribution by industry in 2022 season 3)',
-          subtext: 'Fake Data'
-        },
-        tooltip: {},
-
-        xAxis: {
-          data: [{% for i in x_data %}'{{i}}',{% endfor %}],
-        },
-        yAxis: {},
-        series: [
-          {
-            name: '市值(Market Value)',
-            type: 'bar',
-            data: [{% for i in y_data %}{{i}},{% endfor %}],
-          }
-        ]
-      };
-
-     var option1 = {
-      title: {
-    text: '公司分布(Distribution of company by region)',
-    left: 'center'
-  },
-  tooltip: {
-    trigger: 'item'
-  },
-  legend: {
-    orient: 'vertical',
-    left: 'left'
-  },
-  series: [
-    {
-      name: '上市公司数量(numbers of companies)',
-      type: 'pie',
-      radius: '50%',
-      data: company_and_geo,
-      emphasis: {
-        itemStyle: {
-          shadowBlur: 10,
-          shadowOffsetX: 0,
-          shadowColor: 'rgba(0, 0, 0, 0.5)'
-        }
-      }
+      box-sizing: border-box;
     }
-  ] 
-      };
+
+    h1 {
+      text-align: center;
+    }
+
+    #Requirement1,
+    #Requirement2 {
+      float: left;
+      width: 33.33%;
+      padding: 10px;
+      height: 300px;
+    }
+
+    #Requirement3 {
+      margin-left: 23.33%;
+      width: 33.33%;
+      padding: 10px;
+      height: 300px;
+    }
+
+    .row:after {
+      content: "";
+      display: table;
+      clear: both;
+    }
+
+    .row2:after {
+      content: "";
+      display: table;
+      clear: both;
+    }
+  </style>
+  <div>
+    <h1>上市公司可视化数据分析系统(Listed company visual data analysis system)</h1>
+  </div>
+  <div class="row">
+    <div id="Requirement1" style="width: 720px;height:720px;"></div>
+    <div id="Requirement2" style="width: 720px;height:720px;"></div>
+  </div>
+
+  <div class="search-container">
+    <form action="{% url 'detail' %}">
+      <input type="search" placeholder="Search.." name="searched">
+      <button type="submit">K-Map</button>
+
+    </form>
+  </div>
+
+  <div class="row2">
+    <div id="Requirement3" style="width: 1000px;height:1000px;"></div>
+  </div>
+  <script type="text/javascript">
+
+    var bar = echarts.init(document.getElementById('Requirement1'));
+    var pie = echarts.init(document.getElementById('Requirement2'));
+    var mychart = echarts.init(document.getElementById('Requirement3'));
+
+    const company_and_geo = {{ mylist| safe}};
+
+    var option = {
+      title: {
+        text: '第三季度行业市值分布(Market Value Distribution by Industry in Season 3 2022)'
+      },
+      tooltip: {
+        trigger: 'axis',
+        axisPointer: {
+          type: 'shadow'
+        }
+      },
+      legend: {},
+      grid: {
+        left: '3%',
+        right: '4%',
+        bottom: '3%',
+        containLabel: true
+      },
+      xAxis: {
+        type: 'value',
+        boundaryGap: [0, 0.01]
+      },
+      yAxis: {
+        type: 'category',
+        data: [{% for i in x_data %}'{{i}}',{% endfor %}]
+      },
+      series: [
+        {
+
+          type: 'bar',
+          data: [{% for i in y_data %}{{i}},{% endfor %}]
+        }
+      ]
+
+    };
+
+    var option1 = {
+      title: {
+        text: '公司分布(Distribution of company by region)',
+        left: 'center'
+      },
+      tooltip: {
+        trigger: 'item'
+      },
+      legend: {
+        orient: 'vertical',
+        left: 'left'
+      },
+      series: [
+        {
+          name: '上市公司数量(numbers of companies)',
+          type: 'pie',
+          radius: '50%',
+          data: company_and_geo,
+          emphasis: {
+            itemStyle: {
+              shadowBlur: 10,
+              shadowOffsetX: 0,
+              shadowColor: 'rgba(0, 0, 0, 0.5)'
+            }
+          }
+        }
+      ]
+    };
 
 
-      var option2 = {
-        title: {
-          text: '三季度公司市值排名(company market value in 2022 season 3)',
-          subtext: 'Fake Data'
+    var option2 = {
+      title: {
+        text: '三季度公司市值排名(company market value in 2022 season 3)',
+        subtext: 'Fake Data'
+      },
+      tooltip: {},
+
+      xAxis: {
+        data: [{% for i in COMPANY_closeprice %}'{{i}}',{% endfor %}],
         },
-        tooltip: {},
-
-        xAxis: {
-          data: [{% for i in COMPANY_closeprice %}'{{i}}',{% endfor %}],
-        },
-        yAxis: {},
-        series: [
-          {
-            name: '市值(Market Value)',
-            type: 'bar',
-            data: [{% for i in CLOSEPRICE_company %}{{i}},{% endfor %}],
+    yAxis: { },
+    series: [
+      {
+        name: '市值(Market Value)',
+        type: 'bar',
+        data: [{% for i in CLOSEPRICE_company %}{{ i }}, {% endfor %}],
           }
         ]
       };
 
-      bar.setOption(option);
-      pie.setOption(option1);
-      mychart.setOption(option2);
+    bar.setOption(option);
+    pie.setOption(option1);
+    mychart.setOption(option2);
 
-    </script>
+  </script>
 </body>
+
 </html>

@@ -49,6 +49,11 @@ def charts(request):
         for j in newestPrice_company:
             if i['name']==j['name']:
                 Requirement1[i['industry']] += float(j['max'].replace(",", ""))
+
+    for i in Requirement1.copy():
+        if Requirement1[i] < 600:
+            Requirement1['其他'] += Requirement1[i]
+            del Requirement1[i]
     Requirement1 = sorted(Requirement1.items(), key=lambda item:item[1])
 
     for x,y in Requirement1:       
@@ -67,14 +72,22 @@ def charts(request):
         })
     #-----------------------------------------------------------------------
     #Requirement 3
+    
     for i in newestPrice_company:
         Requirement3[i['name']] = float(i['max'].replace(",", ""))
-    Requirement3 = sorted(Requirement3.items(), key=lambda item:item[1])
+        
+
+    Requirement3 = sorted(Requirement3.items(), key=lambda item:item[1],reverse=True)
     
-    for x,y in Requirement3:       
+    run = 0
+    for x,y in Requirement3:
+        run+=1       
         COMPANY_closeprice.append(x)
         CLOSEPRICE_company.append(y)
-
+        if run == 12:
+            break
+    COMPANY_closeprice.reverse()
+    CLOSEPRICE_company.reverse()
     return render(request,'index.html',{'x_data':x_data,'y_data':y_data,'mylist':mylist,'COMPANY_closeprice':COMPANY_closeprice,'CLOSEPRICE_company':CLOSEPRICE_company})
 
 
@@ -96,10 +109,10 @@ def search(request):
                     temp=[]
                     dates.append(i['date'])
                     
-                    temp.append(float(i['close']))
-                    temp.append(float(i['open']))
-                    temp.append(float(i['min']))
-                    temp.append(float(i['max']))
+                    temp.append(float(i['close'].replace(",", "")))
+                    temp.append(float(i['open'].replace(",", "")))
+                    temp.append(float(i['min'].replace(",", "")))
+                    temp.append(float(i['max'].replace(",", "")))
 
                     kmapwealth.append(temp)
         else:
