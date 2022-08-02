@@ -4,6 +4,8 @@ from collections import defaultdict
 import pymysql.cursors
 import pandas as pd
 
+from typing import List
+
 connection = pymysql.connect(host='localhost',
                              user='root',
                              password='',
@@ -50,15 +52,21 @@ def charts(request):
             if i['name']==j['name']:
                 Requirement1[i['industry']] += float(j['max'].replace(",", ""))
 
-    for i in Requirement1.copy():
-        if Requirement1[i] < 600:
-            Requirement1['其他'] += Requirement1[i]
-            del Requirement1[i]
-    Requirement1 = sorted(Requirement1.items(), key=lambda item:item[1])
-
-    for x,y in Requirement1:       
+    #for i in Requirement1.copy():
+    #    if Requirement1[i] < 600:
+    #        Requirement1['其他'] += Requirement1[i]
+    #        del Requirement1[i]
+    Requirement1 = sorted(Requirement1.items(), key=lambda item:item[1],reverse=True)
+    
+    run = 0
+    for x,y in Requirement1:
         x_data.append(x)
         y_data.append(y)
+        run +=1
+        if run == 12:
+            break
+    x_data.reverse()
+    y_data.reverse()
     #------------------------------------------------------------------------
     #Requirement 2
     for i in company_Geo:
@@ -88,7 +96,7 @@ def charts(request):
             break
     COMPANY_closeprice.reverse()
     CLOSEPRICE_company.reverse()
-    return render(request,'index.html',{'x_data':x_data,'y_data':y_data,'mylist':mylist,'COMPANY_closeprice':COMPANY_closeprice,'CLOSEPRICE_company':CLOSEPRICE_company})
+    return render(request,'map_visualmap.html',{'x_data':x_data,'y_data':y_data,'mylist':mylist,'COMPANY_closeprice':COMPANY_closeprice,'CLOSEPRICE_company':CLOSEPRICE_company})
 
 
 
@@ -163,6 +171,5 @@ def search(request):
         return render(request,'./detail.html',{})
 
 
+#------------------------------------------------
 
-
-#connect b and c

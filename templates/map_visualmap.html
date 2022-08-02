@@ -1,0 +1,538 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>mysite</title>
+            <script type="text/javascript" src="https://assets.pyecharts.org/assets/echarts.min.js"></script>
+        <script type="text/javascript" src="https://assets.pyecharts.org/assets/maps/china.js"></script>
+        <style>
+            * {
+              box-sizing: border-box;
+            }
+        
+            h1 {
+              text-align: center;
+            }
+        
+            #Requirement1,
+            .chart-container {
+              float: left;
+              width: 33.33%;
+              padding: 10px;
+              height: 300px;
+            }
+        
+            #Requirement3 {
+              margin-left: 23.33%;
+              width: 33.33%;
+              padding: 10px;
+              height: 300px;
+            }
+        
+            .row:after {
+              content: "";
+              display: table;
+              clear: both;
+            }
+        
+            .row2:after {
+              content: "";
+              display: table;
+              clear: both;
+            }
+          </style>
+</head>
+<body>
+    
+    <div>
+        <h1>上市公司可视化数据分析系统(Listed company visual data analysis system)</h1>
+      </div>
+      <div class="row">
+        <div id="Requirement1" style="width: 720px;height:720px;"></div>
+        <div id="06abb9ddb94a456585601867377f7e03" class="chart-container" style="width:900px; height:500px;"></div>
+      </div>
+    
+      <div class="search-container">
+        <form action="{% url 'detail' %}">
+          <input type="search" placeholder="Search.." name="searched">
+          <button type="submit">K-Map</button>
+    
+        </form>
+      </div>
+    
+      <div class="row2">
+        <div id="Requirement3" style="width: 1000px;height:1000px;"></div>
+      </div>
+    
+    <script>
+        var bar = echarts.init(document.getElementById('Requirement1'));
+        var chart_06abb9ddb94a456585601867377f7e03 = echarts.init(
+            document.getElementById('06abb9ddb94a456585601867377f7e03'), 'white', {renderer: 'canvas'});
+        var mychart = echarts.init(document.getElementById('Requirement3'));
+
+        var option = {
+      title: {
+        text: '第三季度行业市值分布(Market Value Distribution by Industry in Season 3 2022)'
+      },
+      tooltip: {
+        trigger: 'axis',
+        axisPointer: {
+          type: 'shadow'
+        }
+      },
+      legend: {},
+      grid: {
+        left: '3%',
+        right: '4%',
+        bottom: '3%',
+        containLabel: true
+      },
+      xAxis: {
+        type: 'value',
+        boundaryGap: [0, 0.01]
+      },
+      yAxis: {
+        type: 'category',
+        data: [{% for i in x_data %}'{{i}}',{% endfor %}]
+      },
+      series: [
+        {
+
+          type: 'bar',
+          data: [{% for i in y_data %}{{i}},{% endfor %}]
+        }
+      ]
+
+    };
+
+
+    var option2 = {
+      title: {
+        text: '三季度公司市值排名(company market value in 2022 season 3)',
+        subtext: 'Fake Data'
+      },
+      tooltip: {},
+
+      xAxis: {
+        data: [{% for i in COMPANY_closeprice %}'{{i}}',{% endfor %}],
+        },
+    yAxis: { },
+    series: [
+      {
+        name: '市值(Market Value)',
+        type: 'bar',
+        data: [{% for i in CLOSEPRICE_company %}{{ i }}, {% endfor %}],
+          }
+        ]
+      };
+
+    
+        var option_06abb9ddb94a456585601867377f7e03 = {
+    "animation": true,
+    "animationThreshold": 2000,
+    "animationDuration": 1000,
+    "animationEasing": "cubicOut",
+    "animationDelay": 0,
+    "animationDurationUpdate": 300,
+    "animationEasingUpdate": "cubicOut",
+    "animationDelayUpdate": 0,
+    "color": [
+        "#c23531",
+        "#2f4554",
+        "#61a0a8",
+        "#d48265",
+        "#749f83",
+        "#ca8622",
+        "#bda29a",
+        "#6e7074",
+        "#546570",
+        "#c4ccd3",
+        "#f05b72",
+        "#ef5b9c",
+        "#f47920",
+        "#905a3d",
+        "#fab27b",
+        "#2a5caa",
+        "#444693",
+        "#726930",
+        "#b2d235",
+        "#6d8346",
+        "#ac6767",
+        "#1d953f",
+        "#6950a1",
+        "#918597"
+    ],
+    "series": [
+        {
+            "type": "scatter",
+            "coordinateSystem": "geo",
+            "symbolSize": 12,
+            "data": [
+                {
+                    "name": "\u9752\u6d77",
+                    "value": [
+                        101.780199,
+                        36.620901,
+                        11
+                    ]
+                },
+                {
+                    "name": "\u5b81\u590f",
+                    "value": [
+                        106.258754,
+                        38.471317,
+                        14
+                    ]
+                },
+                {
+                    "name": "\u897f\u85cf",
+                    "value": [
+                        91.117212,
+                        29.646922,
+                        21
+                    ]
+                },
+                {
+                    "name": "\u5185\u8499",
+                    "value": [
+                        111.765617,
+                        40.817498,
+                        23
+                    ]
+                },
+                {
+                    "name": "\u6d77\u5357",
+                    "value": [
+                        110.349228,
+                        20.017377,
+                        30
+                    ]
+                },
+                {
+                    "name": "\u8d35\u5dde",
+                    "value": [
+                        106.70741,
+                        26.598194,
+                        34
+                    ]
+                },
+                {
+                    "name": "\u7518\u8083",
+                    "value": [
+                        103.826308,
+                        36.059421,
+                        36
+                    ]
+                },
+                {
+                    "name": "\u5e7f\u897f",
+                    "value": [
+                        108.327546,
+                        22.815478,
+                        38
+                    ]
+                },
+                {
+                    "name": "\u9ed1\u9f99\u6c5f",
+                    "value": [
+                        126.661669,
+                        45.742347,
+                        38
+                    ]
+                },
+                {
+                    "name": "\u5c71\u897f",
+                    "value": [
+                        112.562398,
+                        37.873531,
+                        39
+                    ]
+                },
+                {
+                    "name": "\u4e91\u5357",
+                    "value": [
+                        102.710002,
+                        25.045806,
+                        39
+                    ]
+                },
+                {
+                    "name": "\u5409\u6797",
+                    "value": [
+                        125.32599,
+                        43.896536,
+                        47
+                    ]
+                },
+                {
+                    "name": "\u65b0\u7586",
+                    "value": [
+                        87.627704,
+                        43.793026,
+                        56
+                    ]
+                },
+                {
+                    "name": "\u91cd\u5e86",
+                    "value": [
+                        106.551556,
+                        29.563009,
+                        62
+                    ]
+                },
+                {
+                    "name": "\u9655\u897f",
+                    "value": [
+                        108.954239,
+                        34.265472,
+                        66
+                    ]
+                },
+                {
+                    "name": "\u5929\u6d25",
+                    "value": [
+                        117.200983,
+                        39.084158,
+                        66
+                    ]
+                },
+                {
+                    "name": "\u6cb3\u5317",
+                    "value": [
+                        114.468664,
+                        38.037057,
+                        67
+                    ]
+                },
+                {
+                    "name": "\u6c5f\u897f",
+                    "value": [
+                        115.909228,
+                        28.675696,
+                        70
+                    ]
+                },
+                {
+                    "name": "\u8fbd\u5b81",
+                    "value": [
+                        123.42944,
+                        41.835441,
+                        78
+                    ]
+                },
+                {
+                    "name": "\u6cb3\u5357",
+                    "value": [
+                        113.753602,
+                        34.765515,
+                        94
+                    ]
+                },
+                {
+                    "name": "\u6e56\u5317",
+                    "value": [
+                        114.341861,
+                        30.546498,
+                        128
+                    ]
+                },
+                {
+                    "name": "\u6e56\u5357",
+                    "value": [
+                        112.98381,
+                        28.112444,
+                        132
+                    ]
+                },
+                {
+                    "name": "\u5b89\u5fbd",
+                    "value": [
+                        117.284922,
+                        31.861184,
+                        148
+                    ]
+                },
+                {
+                    "name": "\u56db\u5ddd",
+                    "value": [
+                        104.075931,
+                        30.651651,
+                        161
+                    ]
+                },
+                {
+                    "name": "\u798f\u5efa",
+                    "value": [
+                        119.295144,
+                        26.100779,
+                        164
+                    ]
+                },
+                {
+                    "name": "\u5c71\u4e1c",
+                    "value": [
+                        117.020359,
+                        36.66853,
+                        264
+                    ]
+                },
+                {
+                    "name": "\u6df1\u5733",
+                    "value": [
+                        114.07,
+                        22.62,
+                        380
+                    ]
+                },
+                {
+                    "name": "\u4e0a\u6d77",
+                    "value": [
+                        121.473701,
+                        31.230416,
+                        393
+                    ]
+                },
+                {
+                    "name": "\u5e7f\u4e1c",
+                    "value": [
+                        113.26653,
+                        23.132191,
+                        399
+                    ]
+                },
+                {
+                    "name": "\u5317\u4eac",
+                    "value": [
+                        116.407526,
+                        39.90403,
+                        427
+                    ]
+                },
+                {
+                    "name": "\u6c5f\u82cf",
+                    "value": [
+                        118.763232,
+                        32.061707,
+                        586
+                    ]
+                },
+                {
+                    "name": "\u6d59\u6c5f",
+                    "value": [
+                        120.152791,
+                        30.267446,
+                        617
+                    ]
+                }
+            ],
+            "label": {
+                "show": false,
+                "position": "top",
+                "margin": 8
+            },
+            "rippleEffect": {
+                "show": true,
+                "brushType": "stroke",
+                "scale": 2.5,
+                "period": 4
+            }
+        }
+    ],
+    "legend": [
+        {
+            "data": [
+                ""
+            ],
+            "selected": {
+                "": true
+            },
+            "show": true,
+            "padding": 5,
+            "itemGap": 10,
+            "itemWidth": 25,
+            "itemHeight": 14
+        }
+    ],
+    "tooltip": {
+        "show": true,
+        "trigger": "item",
+        "triggerOn": "mousemove|click",
+        "axisPointer": {
+            "type": "line"
+        },
+        "showContent": true,
+        "alwaysShowContent": false,
+        "showDelay": 0,
+        "hideDelay": 100,
+        "formatter": function (params) {        return params.name + ' : ' + params.value[2];    },
+        "textStyle": {
+            "fontSize": 14
+        },
+        "borderWidth": 0,
+        "padding": 5
+    },
+    "title": [
+        {
+            "text": "Geo\u5730\u56fe\u793a\u4f8b",
+            "padding": 5,
+            "itemGap": 10
+        }
+    ],
+    "visualMap": {
+        "show": true,
+        "type": "continuous",
+        "min": 0,
+        "max": 100,
+        "inRange": {
+            "color": [
+                "#50a3ba",
+                "#eac763",
+                "#d94e5d"
+            ]
+        },
+        "calculable": true,
+        "inverse": false,
+        "splitNumber": 5,
+        "orient": "vertical",
+        "showLabel": true,
+        "itemWidth": 20,
+        "itemHeight": 140,
+        "borderWidth": 0
+    },
+    "geo": {
+        "map": "china",
+        "roam": true,
+        "aspectScale": 0.75,
+        "nameProperty": "name",
+        "selectedMode": false,
+        "emphasis": {}
+    }
+};
+
+var option2 = {
+      title: {
+        text: '三季度公司市值排名(company market value in 2022 season 3)',
+        subtext: 'Fake Data'
+      },
+      tooltip: {},
+
+      xAxis: {
+        data: [{% for i in COMPANY_closeprice %}'{{i}}',{% endfor %}],
+        },
+    yAxis: { },
+    series: [
+      {
+        name: '市值(Market Value)',
+        type: 'bar',
+        data: [{% for i in CLOSEPRICE_company %}{{ i }}, {% endfor %}],
+          }
+        ]
+      };
+
+        bar.setOption(option);
+        chart_06abb9ddb94a456585601867377f7e03.setOption(option_06abb9ddb94a456585601867377f7e03);
+        mychart.setOption(option2);
+        
+    </script>
+</body>
+</html>
