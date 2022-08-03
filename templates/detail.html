@@ -1,57 +1,102 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <script src="https://cdn.jsdelivr.net/npm/echarts@5.3.3/dist/echarts.min.js"></script>
     <script src="https://cdn.bootcss.com/jquery/3.0.0/jquery.min.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
     <title>MySite</title>
+    <style>
+        .title,
+        #Requirement5 {
+            float: left;
+            width: 50%;
+            padding: 10px;
+            height: 300px;
+            justify-content: center;
+
+        }
+
+        .grid:after {
+            content: "";
+            display: table;
+            clear: both;
+        }
+
+        button {
+            background-color: burlywood;
+            border: none;
+            color: white;
+            padding: 15px 32px;
+            text-align: center;
+            text-decoration: none;
+            display: inline-block;
+            font-size: 16px;
+            margin: 4px 2px;
+            cursor: pointer;
+        }
+
+        button:hover {
+            background-color:yellow;
+            color:black;
+            cursor:pointer;
+            transform:scale(1.03);
+            transition:all 1s ease;
+        }
+    </style>
     <script src="echarts.js"></script>
 </head>
+
 <body>
     {% if searched in company_names %}
-        <h1>{{searched}}的K线图和基础信息 (K-map of {{searched}} and basic information)</h1>
+    <h1>{{searched}}的K线图和基础信息 (K-map of {{searched}} and basic information)</h1>
     {% endif %}
-    <div id="Requirement5" style="width: 1000px;height:1000px;"></div>
-
-    <div class="title">
-        <h2>公司基础信息(Basic Information about Company)</h2>
+    <div class="grid">
+        <div id="Requirement5" style="width: 1000px;height:1000px;"></div>
+        <div class="title">
+            <h2>公司基础信息(Basic Information about Company)</h2>
+            <div class="info_container">
+                {% if searched in company_names %}
+                <h3>公司名(Company Name):{{searched}}</h3>
+                <h3>行业板块(Industry):{{myInd}}</h3>
+                <h3>公司地址(Company Address):{{myaddress}}</h3>
+                <h3>首日开盘价(First Day Opening Price):{{myopeningPrice}}</h3>
+                <h3>首日收盘价(First Day Closing Price):{{myclosingPrice}}</h3>
+                <h3>上市日期(Listing Date):{{mymarketTime}}</h3>
+                <h3>成立日期(Company Establishment Date ):{{myestablishment}}</h3>
+                {% endif %}
+                <form action="http://quotes.money.163.com/f10/gszl_{{regex}}.html#01f01">
+                    <button type="submit">Show More Info <i class="fa fa-search"></i></button>
+                </form>
+            </div>
+        </div>
     </div>
 
-    <div class="info_container">
-        {% if searched in company_names %}
-            <h3>公司名(Company Name):{{searched}}</h3>
-            <h3>行业板块(Industry):{{myInd}}</h3>
-            <h3>公司地址(Company Address):{{myaddress}}</h3>
-            <h3>首日开盘价(First Day Opening Price):{{myopeningPrice}}</h3>
-            <h3>首日收盘价(First Day Closing Price):{{myclosingPrice}}</h3>
-            <h3>上市日期(Listing Date):{{mymarketTime}}</h3>
-            <h3>成立日期(Company Establishment Date ):{{myestablishment}}</h3>
-        {% endif %}
-    </div>
 
-    <form action="http://quotes.money.163.com/f10/gszl_{{regex}}.html#01f01">    
-        <button type="submit">Show More Info</button>
-    </form>
+
+
 
     <script>
         var bar = echarts.init(document.getElementById('Requirement5'));
         var option = {
             xAxis: {
-            data: [{% for i in dates %}'{{i}}',{% endfor %}],
+                data: [{% for i in dates %}'{{i}}',{% endfor %}],
             },
-            yAxis: {},
-            series: [
-                {
-                    type: 'candlestick',
-                    data: [{% for i in kmapwealth %}{{i}},{% endfor %}]
+        yAxis: { },
+        series: [
+            {
+                type: 'candlestick',
+                data: [{% for i in kmapwealth %}{{ i }}, {% endfor %}]
                 }
             ]
         };
-        
+
 
         bar.setOption(option);
 
 
     </script>
 </body>
+
 </html>

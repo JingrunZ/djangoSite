@@ -1,7 +1,7 @@
 
 from pyecharts.charts import Geo
 from pyecharts.globals import ChartType, SymbolType
-from pyecharts import options as opts #引入配置项入口
+from pyecharts import options as opts 
 import pymysql.cursors
 from collections import defaultdict
 
@@ -48,10 +48,10 @@ Geo()
 	.set_series_opts(label_opts=opts.LabelOpts(is_show=False))
 	.set_global_opts(
 		visualmap_opts=opts.VisualMapOpts(),
-		title_opts=opts.TitleOpts(title="Geo地图示例"),
+		title_opts=opts.TitleOpts(title="公司区域(Geo Map for Company)"),
 	)
 )
-geo.render("map_visualmap.html")
+geo.render("homePage.html")
 geo.render_notebook()
 
 

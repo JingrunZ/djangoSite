@@ -34,15 +34,12 @@ with connection:
         cursor.execute(companyInfo)
         company_Info = cursor.fetchall()
 
-
-
 # Create your views here.
 def charts(request):
     Requirement1 = defaultdict(int)
-    Requirement2 = defaultdict(int)
+#    Requirement2 = defaultdict(int)
     Requirement3=defaultdict(int)
-    x_data=[]
-    y_data=[]
+
     mylist=[]
     CLOSEPRICE_company=[]
     COMPANY_closeprice=[]
@@ -51,42 +48,34 @@ def charts(request):
         for j in newestPrice_company:
             if i['name']==j['name']:
                 Requirement1[i['industry']] += float(j['max'].replace(",", ""))
-
-    #for i in Requirement1.copy():
-    #    if Requirement1[i] < 600:
-    #        Requirement1['其他'] += Requirement1[i]
-    #        del Requirement1[i]
+    
+    for i in Requirement1.copy():
+        if Requirement1[i] < 600:
+            Requirement1['其他'] += Requirement1[i]
+            del Requirement1[i]
     Requirement1 = sorted(Requirement1.items(), key=lambda item:item[1],reverse=True)
     
     run = 0
+    res=[]
     for x,y in Requirement1:
-        x_data.append(x)
-        y_data.append(y)
+        my_list={
+        'value':y,
+        'name':x
+        }
+        res.append(my_list)
         run +=1
         if run == 12:
             break
-    x_data.reverse()
-    y_data.reverse()
+
     #------------------------------------------------------------------------
     #Requirement 2
-    for i in company_Geo:
-        Requirement2[i['geo']]+=1
-    Requirement2 = sorted(Requirement2.items(), key=lambda item:item[1])
-    
-    for x,y in Requirement2:       
-        mylist.append({
-            'value':y,
-            'name':x
-        })
+
     #-----------------------------------------------------------------------
     #Requirement 3
     
     for i in newestPrice_company:
         Requirement3[i['name']] = float(i['max'].replace(",", ""))
-        
-
     Requirement3 = sorted(Requirement3.items(), key=lambda item:item[1],reverse=True)
-    
     run = 0
     for x,y in Requirement3:
         run+=1       
@@ -96,9 +85,7 @@ def charts(request):
             break
     COMPANY_closeprice.reverse()
     CLOSEPRICE_company.reverse()
-    return render(request,'map_visualmap.html',{'x_data':x_data,'y_data':y_data,'mylist':mylist,'COMPANY_closeprice':COMPANY_closeprice,'CLOSEPRICE_company':CLOSEPRICE_company})
-
-
+    return render(request,'homePage.html',{'res':res,'mylist':mylist,'COMPANY_closeprice':COMPANY_closeprice,'CLOSEPRICE_company':CLOSEPRICE_company})
 
 def search(request):
     if request.method == "GET":
@@ -116,7 +103,6 @@ def search(request):
                 if i['name'] == searched:
                     temp=[]
                     dates.append(i['date'])
-                    
                     temp.append(float(i['close'].replace(",", "")))
                     temp.append(float(i['open'].replace(",", "")))
                     temp.append(float(i['min'].replace(",", "")))
@@ -135,6 +121,7 @@ def search(request):
                     mymarketTime=i['marketTime']
                     myopeningPrice=i['openingPrice']
                     myclosingPrice=i['closingPrice']
+
             for i in industry_company:
                 if i['name'] == searched:
                     myInd = i['industry']
@@ -159,17 +146,8 @@ def search(request):
             'myclosingPrice':myclosingPrice,
             'myInd':myInd,
             'regex':regex
-        }
-
-        print(regex)
-        
-
-        
+        }   
         
         return render(request,'./detail.html',data)
     else:
         return render(request,'./detail.html',{})
-
-
-#------------------------------------------------
-
