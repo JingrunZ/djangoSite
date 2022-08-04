@@ -51,7 +51,6 @@
 <body>
     {% if searched in company_names %}
     <h1>{{searched}}的K线图和基础信息 (K-map of {{searched}} and basic information)</h1>
-    {% endif %}
     <div class="grid">
         <div id="Requirement5" style="width: 1000px;height:1000px;"></div>
         <div class="title">
@@ -72,11 +71,10 @@
             </div>
         </div>
     </div>
-
-
-
-
-
+    {% else %}
+    <h1>No Info</h1>
+    {% endif %}
+    
     <script>
         var bar = echarts.init(document.getElementById('Requirement5'));
         var option = {

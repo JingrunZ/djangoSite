@@ -1,5 +1,5 @@
 from django.shortcuts import render
-
+from django.templatetags.static import static
 from collections import defaultdict
 import pymysql.cursors
 import pandas as pd
@@ -94,13 +94,21 @@ def search(request):
 
         kmapwealth=[]
         dates=[]
-
+        myname = "none"
+        myaddress="none"
+        myestablishment="none"
+        mymarketTime="none"
+        myopeningPrice="none"
+        myclosingPrice="none"
+        myInd="none"
+        regex="none"
         for i in company_Geo:
             company_names.append(i['name'])
 
         if searched in company_names:
             for i in Basic_Info:
                 if i['name'] == searched:
+                    
                     temp=[]
                     dates.append(i['date'])
                     temp.append(float(i['close'].replace(",", "")))
@@ -125,20 +133,21 @@ def search(request):
             for i in industry_company:
                 if i['name'] == searched:
                     myInd = i['industry']
-
-        df = pd.read_csv(r'C:\Users\stanf\OneDrive\Desktop\project\mysite\myapp\tushare.csv')
+        
+        url = static('tushare.csv')
+        df = pd.read_csv(url)
         for i in range(0,4735):
             temp = df.loc[i][2]
             if temp == searched:
                 regex=df.loc[i][0][0:6]
-
+        print(searched)
         #encapsulation 
         data = {
             'searched':searched,
             'kmapwealth':kmapwealth,
             'dates':dates,
             'company_names':company_names,
-            'myname':myname,
+            'myname': myname,
             'myaddress':myaddress,
             'myestablishment':myestablishment,
             'mymarketTime':mymarketTime,
@@ -146,7 +155,8 @@ def search(request):
             'myclosingPrice':myclosingPrice,
             'myInd':myInd,
             'regex':regex
-        }   
+        }
+
         
         return render(request,'./detail.html',data)
     else:
