@@ -8,5 +8,5 @@ This project visualize data of chinese stock information, which contains 4800+ c
 The home page displays the general information about the whole of chinese stock system. Different data are shown by different charts, such as map chart, pie chart and bar chart.
 
 ### Detail Page
-![Image1](static/home.png)
+![Image1](static/detail.png)
 The detail page displays the detail information about specific company
