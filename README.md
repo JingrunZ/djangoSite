@@ -1,2 +1,2 @@
 # django-site
-![Image1](/mysite/static/home.png)
+![Image1](static/home.png)
