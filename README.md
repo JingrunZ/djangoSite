@@ -3,10 +3,10 @@ This project visualize data of chinese stock information, which contains 4800+ c
 
 ***Reference: web scrapping data from <http://quotes.money.163.com/stock/>***
 
-# Home Page
+### Home Page
 ![Image1](static/home.png)
-## The home page displays the general information about the whole of chinese stock system. Different data are shown by different charts, such as map chart, pie chart and bar chart.
+The home page displays the general information about the whole of chinese stock system. Different data are shown by different charts, such as map chart, pie chart and bar chart.
 
-# Detail Page
+### Detail Page
 ![Image1](static/home.png)
-## The detail page displays the detail information about specific company
+The detail page displays the detail information about specific company
