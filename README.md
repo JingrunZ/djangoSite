@@ -1,1 +1,1 @@
-# django-site
+django-site
